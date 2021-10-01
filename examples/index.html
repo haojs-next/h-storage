@@ -1,0 +1,33 @@
+<!--
+ * @Date: 2021-09-30 19:56:52
+ * @Author: 清风浩明月
+ * @Version: 
+ * @LastEditTime: 2021-10-01 17:24:47
+ * @Description: 
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+    <script src="../dist/h-storage.js"></script>
+    <script>
+        console.log(hStorage)
+        hStorage.setOptions({ 
+            // namespace: 'KEY_', 
+            storage: "session"
+        })
+
+        // hStorage.set("ceshi", { name: "哈哈" }, { expires: 1 })
+
+        console.log(hStorage.get("ceshi"))
+
+        hStorage.remove("ceshi")
+        console.log(hStorage.get("ceshi"))
+    </script>
+</body>
+</html>

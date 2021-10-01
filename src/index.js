@@ -2,6 +2,8 @@
  * javascript 本地存储
  * 使用 localStorage 来进行缓存数据
  **/
+const _global = (typeof window !== 'undefined' ? window : global || {});
+
 const SPLIT_STR = "$@";
 const DATA_PROCESS_MAPPING = {
     number: {
@@ -27,17 +29,22 @@ function getProcess(type) {
 }
 
 class Storage {
-    static storage = window.localStorage;
+    static storage = _global.localStorage;
+    static options = {
+        namespace: '',  // key 键前缀
+        storage: 'local',   // 存储名称: session, local
+    }
+    constructor () {}
     get(key) {
         let st = Storage.storage;
-        let stringData = st.getItem(key);
+        let stringData = st.getItem(Storage.options.namespace  + key);
         if (stringData) {
             let dataArray = stringData.split(SPLIT_STR);
             let data;
             let now = Date.now();
             if (dataArray.length > 2 && dataArray[2] < now) {
                 // 缓存过期
-                st.removeItem(key);
+                this.remove(key);
                 return null;
             } else {
                 let value = decodeURIComponent(dataArray[1]);
@@ -51,7 +58,7 @@ class Storage {
         options = Object.assign(
             {
                 expires: 0, // expires 设置有效时间 单位天
-                encode: true // 是否加密
+                encode: true // 是否编码加密
             },
             options
         );
@@ -69,14 +76,22 @@ class Storage {
             let time = options.expires * 24 * 60 * 60 * 1000 + new Date().getTime();
             value = type + SPLIT_STR + NEW_VALUE + SPLIT_STR + time;
         }
-        Storage.storage.setItem(key, value);
+        Storage.storage.setItem(Storage.options.namespace + key, value);
     }
     clear() {
         Storage.storage.clear();
     }
     remove(key) {
-        Storage.storage.removeItem(key);
+        Storage.storage.removeItem(Storage.options.namespace + key);
+    }
+    setOptions (options = {}) {
+        Storage.options = Object.assign(Storage.options, options);
+        Storage.storage = Storage.options.storage === "session" ? _global.sessionStorage : _global.localStorage;
     }
 }
 
-export default new Storage();
+let hStorage = new Storage();
+
+_global.hStorage = hStorage;
+
+export default hStorage;

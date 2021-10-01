@@ -9,7 +9,8 @@
   "author": "hao",
   "license": "MIT",
   "scripts": {
-    "build": "rollup -c"
+    "build": "rollup -c",
+    "dev": "rollup -c -w"
   },
   "devDependencies": {
     "core-js": "^3.18.0",

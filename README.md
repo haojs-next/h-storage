@@ -15,11 +15,19 @@ yarn add h-storage || npm i h-storage
 ## 使用
 
 ```js
-import hls from 'h-storage'
+import hStorage from 'h-storage'
 
-let value = {name: 'xiejun'}
+// 配置
+hStorage.setOptions({
+    namespace: 'KEY_',      // key 键前缀
+    storage: 'local',   // 存储方式: session, local
+})
+
 // 设值
-// set （<key>, value, options = { expires: 0, encode: true }）
+// set （<key>, value, options? = { expires: 0, encode: true }）
+hls.set('key', { name: "测试", age: 23 });
+
+// 或者
 // expires 过期时间, 单位是天, 默认为零，不设置
 hls.set('key', { name: "测试", age: 23 }, { expires: 1, encode: true }) // expires: 设置到期时间，1 代表一天， encode:  encodeURIComponent 进行编码，默认为开启，false为关闭
 
