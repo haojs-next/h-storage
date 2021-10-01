@@ -1,11 +1,11 @@
 {
-  "name": "h-storage",
+  "name": "hx-storage",
   "version": "1.0.0",
   "description": "A JavaScript local store with type and time",
-  "main": "dist/h-storage.cjs.js",
-  "module": "dist/h-storage.esm.js",
-  "browser": "dist/h-storage.js",
-  "repository": "https://github.com/haojs-next/h-storage.git",
+  "main": "dist/hx-storage.cjs.js",
+  "module": "dist/hx-storage.esm.js",
+  "browser": "dist/hx-storage.js",
+  "repository": "https://github.com/haojs-next/hx-storage.git",
   "author": "hao",
   "license": "MIT",
   "scripts": {

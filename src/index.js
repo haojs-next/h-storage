@@ -90,8 +90,8 @@ class Storage {
     }
 }
 
-let hStorage = new Storage();
+let hxStorage = new Storage();
 
-_global.hStorage = hStorage;
+_global.hxStorage = hxStorage;
 
-export default hStorage;
+export default hxStorage;

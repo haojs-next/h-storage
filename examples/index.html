@@ -2,7 +2,7 @@
  * @Date: 2021-09-30 19:56:52
  * @Author: 清风浩明月
  * @Version: 
- * @LastEditTime: 2021-10-01 17:24:47
+ * @LastEditTime: 2021-10-01 17:59:50
  * @Description: 
 -->
 <!DOCTYPE html>
@@ -14,20 +14,21 @@
 </head>
 <body>
     
-    <script src="../dist/h-storage.js"></script>
+    <script src="../dist/hx-storage.js"></script>
     <script>
-        console.log(hStorage)
-        hStorage.setOptions({ 
-            // namespace: 'KEY_', 
+        console.log(hxStorage)
+        hxStorage.setOptions({ 
+            namespace: 'KEY_', 
             storage: "session"
         })
 
-        // hStorage.set("ceshi", { name: "哈哈" }, { expires: 1 })
+        // hxStorage.set("ceshi", { name: "哈哈" }, { expires: 1 })
 
-        console.log(hStorage.get("ceshi"))
+        console.log(hxStorage.get("ceshi"))
 
-        hStorage.remove("ceshi")
-        console.log(hStorage.get("ceshi"))
+        // hxStorage.remove("ceshi")
+
+        console.log(hxStorage.get("ceshi"))
     </script>
 </body>
 </html>
