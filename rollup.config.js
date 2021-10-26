@@ -9,9 +9,9 @@ export default [
   {
     input: 'src/index.js',
     output: [
-		{ file: pkg.main, format: 'cjs', name: 'hx.storage' },
-		{ file: pkg.module, format: 'es', name: 'hx.storage' },
-		{ file: pkg.browser, format: 'umd', name: 'hx.storage' }
+		{ file: pkg.main, format: 'cjs', name: 'hxStorage' },
+		{ file: pkg.module, format: 'es', name: 'hxStorage' },
+		{ file: pkg.browser, format: 'umd', name: 'hxStorage' }
     ],
     plugins: [
 		commonjs(),

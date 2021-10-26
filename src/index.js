@@ -2,7 +2,6 @@
  * javascript 本地存储
  * 使用 localStorage 来进行缓存数据
  **/
-const _global = (typeof window !== 'undefined' ? window : global || {});
 
 const SPLIT_STR = "$@";
 const DATA_PROCESS_MAPPING = {
@@ -31,7 +30,7 @@ function getProcess(type) {
 class Storage {
     static storage = _global.localStorage;
     static options = {
-        namespace: '',  // key 键前缀
+        namespace: '',      // key 键前缀
         storage: 'local',   // 存储名称: session, local
     }
     constructor () {}
@@ -57,7 +56,7 @@ class Storage {
     set(key, value, options) {
         options = Object.assign(
             {
-                expires: 0, // expires 设置有效时间 单位天
+                expires: 0,  // expires 设置有效时间 单位天
                 encode: true // 是否编码加密
             },
             options
@@ -91,7 +90,5 @@ class Storage {
 }
 
 let hxStorage = new Storage();
-
-_global.hxStorage = hxStorage;
 
 export default hxStorage;
