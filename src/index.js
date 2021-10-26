@@ -72,7 +72,7 @@ class Storage {
     set(key, value, options) {
         options = Object.assign(
             {
-                expires: 0, // expires 设置有效时间 单位天
+                expires: 0,  // expires 设置有效时间 单位天
                 encode: true // 是否编码加密
             },
             options
