@@ -1,4 +1,4 @@
-# hx-storage (浩璇)
+# hx-storage (javascript storage)
 
 ### 1. 前端js使用localStorage的时候只能存字符串,不能存储对象
 
@@ -10,20 +10,18 @@
 
 ## 安装
 
-```
-yarn add hx-storage || npm i hx-storage
+```base
+npm i hx-storage
 
+or
+
+yarn add hx-storage  
 ```
+
 ## 使用
 
 ```js
-import hxStorage from 'hx-storage'
-
-// 配置
-hxStorage.setOptions({
-    namespace: 'KEY_',      // key 键前缀
-    storage: 'local',   // 存储方式: session, local
-})
+import hxStorage from 'hx-storage';
 
 // 设值
 // set （<key>, value, options? = { expires: 0, encode: true }）
@@ -42,4 +40,25 @@ hxStorage.clear()
 // 删除某个key
 hxStorage.remove('key')
 
+
+// 获取 storage 存储的数据
+hxStorage.list();   // { ...data }
+
+```
+
+## 配置
+
+```javascript
+import hxStorage from 'hx-storage'
+
+// 配置
+hxStorage.setOptions({
+    namespace: 'KEY_',      // 设置全局名称前缀
+    storage: 'local',       // 存储方式: local 永久存储 和 临时存储  session， 默认为 local
+})
+
+
+hxStorage.set('name', "bar");  // 存储为  { KEY_name : "bar" }
+
+hxStorage.get('name')   // bar
 ```

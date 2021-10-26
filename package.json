@@ -1,15 +1,19 @@
 {
   "name": "hx-storage",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "A JavaScript local store with type and time",
   "main": "dist/hx-storage.cjs.js",
   "module": "dist/hx-storage.esm.js",
   "browser": "dist/hx-storage.js",
-  "repository": "https://github.com/haojs-next/hx-storage.git",
+  "repository": "https://github.com/hvuejs/hx-storage.git",
   "author": "hao",
   "license": "MIT",
+  "files": [
+    "index.js",
+    "dist/*.js"
+  ],
   "scripts": {
-    "build": "rollup -c",
+    "build": "rollup -c --environment NODE_ENV:production",
     "dev": "rollup -c -w"
   },
   "devDependencies": {

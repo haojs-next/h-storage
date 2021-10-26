@@ -2,6 +2,8 @@
  * javascript 本地存储
  * 使用 localStorage 来进行缓存数据
  **/
+import cache from "./cacheStorage";
+
 const _global = (typeof window !== 'undefined' ? window : global || {});
 
 const SPLIT_STR = "$@";
@@ -28,13 +30,26 @@ function getProcess(type) {
     return DATA_PROCESS_MAPPING[type] || DATA_PROCESS_MAPPING["default"];
 }
 
+
+const stObj = {
+    "local": _global.localStorage,
+    "session": _global.sessionStorage,
+    "cache": cache
+}
+
+function getStorage (name) {
+    return  stObj[name] ?? cache
+}
+
 class Storage {
-    static storage = _global.localStorage;
+    static storage = null;
     static options = {
-        namespace: '',  // key 键前缀
+        namespace: '',      // key 键前缀
         storage: 'local',   // 存储名称: session, local
     }
-    constructor () {}
+    constructor (name) {
+        Storage.storage = getStorage(name);
+    }
     get(key) {
         let st = Storage.storage;
         let stringData = st.getItem(Storage.options.namespace  + key);
@@ -77,21 +92,32 @@ class Storage {
             value = type + SPLIT_STR + NEW_VALUE + SPLIT_STR + time;
         }
         Storage.storage.setItem(Storage.options.namespace + key, value);
+        return true
     }
     clear() {
         Storage.storage.clear();
+        return true
     }
     remove(key) {
         Storage.storage.removeItem(Storage.options.namespace + key);
+        return true
     }
     setOptions (options = {}) {
+        if (options.storage && ['local', 'session', "cache"].indexOf(options.storage) === -1) {
+            throw new Error("hx-storage: storage "+ options.storage +" is not supported");
+        }
         Storage.options = Object.assign(Storage.options, options);
-        Storage.storage = Storage.options.storage === "session" ? _global.sessionStorage : _global.localStorage;
+        let lsName = Storage.options.storage || "local";
+        Storage.storage = getStorage(lsName);
+        return true
+    }
+    list () {
+        let data = Storage.storage;
+        let datas = data?._is_cache ? { ...data.data } : { ...data }
+        return datas;
     }
 }
 
-let hxStorage = new Storage();
-
-_global.hxStorage = hxStorage;
+let hxStorage = new Storage("local");
 
 export default hxStorage;
