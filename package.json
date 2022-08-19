@@ -1,29 +1,31 @@
 {
-  "name": "hx-storage",
-  "version": "1.0.2",
-  "description": "A JavaScript local store with type and time",
-  "main": "dist/hx-storage.cjs.js",
-  "module": "dist/hx-storage.esm.js",
-  "browser": "dist/hx-storage.js",
-  "repository": "https://github.com/hvuejs/hx-storage.git",
-  "author": "hao",
-  "license": "MIT",
-  "files": [
-    "index.js",
-    "dist/*.js"
-  ],
-  "scripts": {
-    "build": "rollup -c --environment NODE_ENV:production",
-    "dev": "rollup -c -w"
-  },
-  "devDependencies": {
-    "core-js": "^3.18.0",
-    "@babel/core": "^7.15.5",
-    "@babel/preset-env": "^7.15.6",
-    "rollup": "^2.56.3",
-    "rollup-plugin-babel": "^4.4.0",
-    "rollup-plugin-commonjs": "^10.1.0",
-    "rollup-plugin-filesize": "^9.1.1",
-    "rollup-plugin-terser": "^7.0.2"
-  }
+    "name": "hx-storage",
+    "version": "2.0.0",
+    "description": "A JavaScript local store with type and time",
+    "main": "dist/hx-storage.js",
+    "module": "dist/hx-storage.esm.js",
+    "types": "dist/index.d.ts",
+    "repository": "https://github.com/hvuejs/hx-storage.git",
+    "author": "hao",
+    "license": "MIT",
+    "files": [
+        "index.js",
+        "dist"
+    ],
+    "scripts": {
+        "build": "rollup -c --environment NODE_ENV:production",
+        "dev": "rollup -c -w"
+    },
+    "devDependencies": {
+        "@babel/core": "^7.15.5",
+        "@babel/preset-env": "^7.15.6",
+        "core-js": "^3.18.0",
+        "rollup": "^2.56.3",
+        "rollup-plugin-babel": "^4.4.0",
+        "rollup-plugin-commonjs": "^10.1.0",
+        "rollup-plugin-filesize": "^9.1.1",
+        "rollup-plugin-terser": "^7.0.2",
+        "rollup-plugin-typescript2": "^0.32.1",
+        "typescript": "^4.7.4"
+    }
 }

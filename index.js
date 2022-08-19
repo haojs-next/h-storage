@@ -1,1 +1,1 @@
-module.exports = require("./dist/hx-storage")
+module.exports = require("./dist/hx-storage.js")

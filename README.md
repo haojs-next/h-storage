@@ -23,26 +23,26 @@ yarn add hx-storage
 ```js
 import hxStorage from 'hx-storage';
 
+// 使用
+const ls = hxStorage();
+
 // 设值
 // set （<key>, value, options? = { expires: 0, encode: true }）
-hxStorage.set('key', { name: "测试", age: 23 });
+ls.set('key', { name: "测试", age: 23 });
 
 // 或者
 // expires 过期时间, 单位是天, 默认为零，不设置
-hxStorage.set('key', { name: "测试", age: 23 }, { expires: 1, encode: true }) // expires: 设置到期时间，1 代表一天， encode:  encodeURIComponent 进行编码，默认为开启，false为关闭
+ls.set('key', { name: "测试", age: 23 }, { expires: 1, encode: true }) // expires: 设置到期时间，1 代表一天， encode:  encodeURIComponent 进行编码，默认为开启，false为关闭
 
 // 获取值
-hxStorage.get('key')
+ls.get('key')
 
-// 清楚所有缓存
-hxStorage.clear()
 
 // 删除某个key
-hxStorage.remove('key')
+ls.remove('key')
 
-
-// 获取 storage 存储的数据
-hxStorage.list();   // { ...data }
+// 清楚所有缓存
+ls.clear()
 
 ```
 
@@ -51,14 +51,15 @@ hxStorage.list();   // { ...data }
 ```javascript
 import hxStorage from 'hx-storage'
 
-// 配置
-hxStorage.setOptions({
-    namespace: 'KEY_',      // 设置全局名称前缀
-    storage: 'local',       // 存储方式: local 永久存储 和 临时存储  session， 默认为 local
+
+// 可配置
+const ls = hxStorage({
+    namespace: 'HX_',       // 设置全局名称前缀， 默认：'HX_'
+    storage: 'session',     // 存储方式: local 永久存储 和 临时存储  session， 默认为 local
 })
 
 
-hxStorage.set('name', "bar");  // 存储为  { KEY_name : "bar" }
+ls.set('name', "bar");  // 存储为  { HX_name : "bar" }
 
-hxStorage.get('name')   // bar
+ls.get('name')   // bar
 ```
