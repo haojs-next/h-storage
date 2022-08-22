@@ -3,9 +3,9 @@ import filesize from 'rollup-plugin-filesize';
 import commonjs from 'rollup-plugin-commonjs';
 import babel from "rollup-plugin-babel";
 import ts from "rollup-plugin-typescript2";
-
+import livereload from 'rollup-plugin-livereload'
 import pkg from './package.json'
-
+import serve from 'rollup-plugin-serve'
 
 const isPro = process.env.NODE_ENV === "production";
 
@@ -23,9 +23,15 @@ const plugins = [
     filesize()
 ]
 
-// if (isPro) {
-//     plugins.push(terser());
-// }
+if (isPro) {
+    plugins.push(terser())
+} else {
+    plugins.push(livereload())
+    plugins.push(serve({
+        open: true,
+        openPage: "/public/index.html"
+    }))
+}
 
 // 设置头部注释信息
 const banner =
@@ -41,7 +47,7 @@ const footer = `\n/** ${new Date()} **/`
 
 export default [
   {
-    input: 'src/index.ts',
+    input: isPro ? 'src/index.ts' : 'src/test.ts',
     output: [
         // "browser": "dist/hx-storage.js",
         // { file: pkg.browser, format: 'cjs', name: 'hxStorage', banner, footer },

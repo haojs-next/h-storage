@@ -32,7 +32,13 @@ ls.set('key', { name: "测试", age: 23 });
 
 // 或者
 // expires 过期时间, 单位是天, 默认为零，不设置
-ls.set('key', { name: "测试", age: 23 }, { expires: 1, encode: true }) // expires: 设置到期时间，1 代表一天， encode:  encodeURIComponent 进行编码，默认为开启，false为关闭
+ls.set('key', 
+    { name: "测试", age: 23 }, 
+    { 
+        expires: 1,     // expires: 设置到期时间，1 代表一天，
+        encode: true    // encode:  encodeURIComponent 进行编码，默认为开启，false为关闭
+    }
+);  
 
 // 获取值
 ls.get('key')

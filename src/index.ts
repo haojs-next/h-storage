@@ -5,15 +5,16 @@
 
 const _global = (typeof window !== 'undefined' ? window : global || {});
 
-type METHODS = {
-    save(data: any): any;
-    parse(data: any): any
+
+type METHODS<T = any, U = any> = {
+    save(data: T): T;
+    parse(data: U): U;
 }
 
 interface DATAPROCESSMAPPING {
-    number: METHODS;
+    number: METHODS<number>;
     object: METHODS;
-    undefined: METHODS;
+    undefined: METHODS<undefined, undefined>;
     default: METHODS;
 }
 
@@ -24,8 +25,8 @@ const DATA_PROCESS_MAPPING: DATAPROCESSMAPPING = {
         parse: (data) => Number.parseFloat(data)
     },
     object: {
-        save: data => JSON.stringify(data),
-        parse: data => JSON.parse(data)
+        save: (data) => JSON.stringify(data),
+        parse: (data) => JSON.parse(data)
     },
     undefined: {
         save: data => data,
@@ -56,7 +57,9 @@ function getStorage (name: string = 'local') {
     return  stObj[name] || stObj['local']
 }
 
-type StorageName = 'session' | 'local'
+type StorageName = 'session' | 'local';
+
+const encryptName: string = "isEncrypt";
 
 interface StOptions {
     namespace?: string;
@@ -64,11 +67,11 @@ interface StOptions {
 }
 
 class Storage {
-    storage
-    options: StOptions = {
+    private storage
+    private options: StOptions = {
         namespace: 'HX_',      // key 键前缀
         storage: 'local',   // 存储名称: session, local
-    }
+    };
     constructor (options?: StOptions) {
         Object.assign(this.options, options);
         let lsName = this.options.storage;
@@ -91,7 +94,7 @@ class Storage {
                 this.remove(key);
                 return null;
             }
-            let value = dataArray.length > 3 && dataArray[3] === 'isEncodeURIComponent' ? decodeURIComponent(dataArray[1]) : dataArray[1];
+            let value = dataArray.length > 3 && dataArray[3] === encryptName ? decodeURIComponent(dataArray[1]) : dataArray[1];
             data = getProcess(dataArray[0]).parse(value);
             return data;
         }
@@ -119,7 +122,7 @@ class Storage {
             let time = options.expires! * 24 * 60 * 60 * 1000 + new Date().getTime();
             value = type + SPLIT_STR + NEW_VALUE + SPLIT_STR + time;
         }
-        options.encode && (value = value + SPLIT_STR + "isEncodeURIComponent");
+        options.encode && (value = value + SPLIT_STR + encryptName);
         this.storage.setItem(this.options.namespace + key, value);
         return true
     }
