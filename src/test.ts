@@ -5,12 +5,11 @@ const ls = hxStorage({
 })
 
 
-// ls.set('b', { aaa: 111}, { expires: 1, encode: false })
-ls.set('aaaa', 2222, { expires: 0.5 })
+ls.set('b', { aaa: 111})
+ls.set('my', { name: '君君'}, { expires: 1 })
 
-ls['options'].namespace = '111'
-
-console.log(ls.get('MY'))
+const a = ls.get('my')
+console.log(ls.get('b'), a)
 
 type Function = () => void
 

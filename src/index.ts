@@ -59,7 +59,8 @@ function getStorage (name: string = 'local') {
 
 type StorageName = 'session' | 'local';
 
-const encryptName: string = "isEncrypt";
+const encryptName: string = "noEncrypt";        // 开启加密
+const notEncryptName: string = "offEncrypt";    // 取消加密
 
 interface StOptions {
     namespace?: string;
@@ -89,12 +90,12 @@ class Storage {
             let dataArray: Array<any> = stringData.split(SPLIT_STR);
             let data;
             let now = Date.now();
-            if (dataArray.length > 2 && dataArray[2] < now) {
+            if (dataArray.length > 3 && dataArray[3] < now) {                
                 // 缓存过期
                 this.remove(key);
                 return null;
             }
-            let value = dataArray.length > 3 && dataArray[3] === encryptName ? decodeURIComponent(dataArray[1]) : dataArray[1];
+            let value = dataArray.length > 2 && dataArray[2] === encryptName ? decodeURIComponent(dataArray[1]) : dataArray[1];
             data = getProcess(dataArray[0]).parse(value);
             return data;
         }
@@ -115,14 +116,16 @@ class Storage {
         const type = typeof value;
         const process = getProcess(type);
         let NEW_VALUE = options.encode ? encodeURIComponent(process.save(value)) : process.save(value);
+        let ecrypt =  options.encode ? encryptName : notEncryptName;
         if (options.expires! <= 0) {
             // 默认不传 不过期
-            value = type + SPLIT_STR + NEW_VALUE;
+            value = type + SPLIT_STR + NEW_VALUE + SPLIT_STR + ecrypt;
+            
         } else {
             let time = options.expires! * 24 * 60 * 60 * 1000 + new Date().getTime();
-            value = type + SPLIT_STR + NEW_VALUE + SPLIT_STR + time;
+            value = type + SPLIT_STR + NEW_VALUE + SPLIT_STR + ecrypt + SPLIT_STR + time;
         }
-        options.encode && (value = value + SPLIT_STR + encryptName);
+        
         this.storage.setItem(this.options.namespace + key, value);
         return true
     }

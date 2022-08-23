@@ -1,6 +1,6 @@
 {
     "name": "hx-storage",
-    "version": "2.0.0",
+    "version": "2.0.0-beta.1",
     "description": "A JavaScript local store with type and time",
     "main": "dist/hx-storage.js",
     "module": "dist/hx-storage.esm.js",
