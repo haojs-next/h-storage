@@ -2,24 +2,25 @@
     "compilerOptions": {
       "baseUrl": ".",
       "sourceMap": false, // 是否生成sourceMap
-      "target": "es5", // 编译目标
+      "target": "es6", // 编译目标
       "module": "esnext", // 模块类型
       "moduleResolution": "node",
       "allowJs": false, // 是否编辑js文件
-      "strict": true, // 严格模式
+      "strict": false, // 严格模式
       "noUnusedLocals": true, // 未使用变量报错
       "experimentalDecorators": true, // 启动装饰器
-      "resolveJsonModule": true, // 加载json
+    //   "resolveJsonModule": true, // 加载json
       "esModuleInterop": true, 
       "removeComments": false, // 删除注释
       "declaration": true, // 生成定义文件
       "declarationMap": false, // 生成定义sourceMap
-      "declarationDir": "./types", // 定义文件输出目录
-      "suppressImplicitAnyIndexErrors": true
-
+      "declarationDir": "./dist", // 定义文件输出目录
+      "suppressImplicitAnyIndexErrors": true,
+      "outDir": "./dist/es"
     },
     "include": [
       "src/**/*.ts"  // 导入目录
+        // "packages/**/*.ts"  
     ],
     "exclude": ["node_modules", "dist"]
 }  

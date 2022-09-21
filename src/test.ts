@@ -5,7 +5,7 @@ const ls = hxStorage({
 })
 
 
-ls.set('b', { aaa: 111})
+ls.set('b', "浩浩")
 ls.set('my', { name: '君君'}, { expires: 1 })
 
 const a = ls.get('my')

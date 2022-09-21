@@ -14,9 +14,12 @@ const extensions = [
     '.ts',
 ]
 
+let override = { compilerOptions: { declaration: false } };
+
 const plugins = [
     ts({
-        extensions
+        extensions,
+        tsconfigOverride: override
     }),
     commonjs(),
     babel(),
@@ -45,16 +48,29 @@ const banner =
 const footer = `\n/** ${new Date()} **/`
 
 
-export default [
-  {
-    input: isPro ? 'src/index.ts' : 'src/test.ts',
-    output: [
-        // "browser": "dist/hx-storage.js",
-        // { file: pkg.browser, format: 'cjs', name: 'hxStorage', banner, footer },
-        { file: pkg.module, format: 'es', name: 'hxStorage', banner, footer },
-		{ file: pkg.main, format: 'umd', name: 'hxStorage', banner, footer }
-    ],
-    plugins
-  }
-]
+// const getEntry = (component) => {
+//     return resolve(`./packages/index.ts`)
+// }
+
+function getPackageConfig (name) {
+    return {
+        input: "./src/index.ts",//getEntry(name),
+        output: [
+            // "browser": "dist/hx-storage.js",
+            // { file: pkg.browser, format: 'cjs', name: 'hxStorage', banner, footer },
+            { file: pkg.module, format: 'es', name: 'hxStorage', banner, footer },
+            { file: pkg.main, format: 'umd', name: 'hxStorage', banner, footer }
+        ],
+        // external: ["crypto-js"],
+        plugins
+    }
+}
+
+
+
+export default () => (
+    [
+        getPackageConfig()
+    ]
+)
 

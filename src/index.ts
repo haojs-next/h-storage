@@ -2,8 +2,7 @@
  * javascript 本地存储
  * 使用 localStorage 来进行缓存数据
  **/
-
-const _global = (typeof window !== 'undefined' ? window : global || {});
+import { encrypt, decrypt } from "./cryptojs2";
 
 
 type METHODS<T = any, U = any> = {
@@ -49,8 +48,8 @@ function getProcess(type: string) {
 
 
 const stObj = {
-    "local": _global.localStorage,
-    "session": _global.sessionStorage,
+    "local": localStorage,
+    "session": sessionStorage,
 }
 
 function getStorage (name: string = 'local') {
@@ -59,7 +58,7 @@ function getStorage (name: string = 'local') {
 
 type StorageName = 'session' | 'local';
 
-const encryptName: string = "noEncrypt";        // 开启加密
+const encryptName: string = "onEncrypt";        // 开启加密
 const notEncryptName: string = "offEncrypt";    // 取消加密
 
 interface StOptions {
@@ -95,7 +94,7 @@ class Storage {
                 this.remove(key);
                 return null;
             }
-            let value = dataArray.length > 2 && dataArray[2] === encryptName ? decodeURIComponent(dataArray[1]) : dataArray[1];
+            let value = dataArray.length > 2 && dataArray[2] === encryptName ? decrypt(dataArray[1]) : dataArray[1];
             data = getProcess(dataArray[0]).parse(value);
             return data;
         }
@@ -115,7 +114,7 @@ class Storage {
         }
         const type = typeof value;
         const process = getProcess(type);
-        let NEW_VALUE = options.encode ? encodeURIComponent(process.save(value)) : process.save(value);
+        let NEW_VALUE = options.encode ? encrypt(process.save(value)) : process.save(value);
         let ecrypt =  options.encode ? encryptName : notEncryptName;
         if (options.expires! <= 0) {
             // 默认不传 不过期
