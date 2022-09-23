@@ -1,15 +1,19 @@
-function sleep (delay: number) {
+function sleep (time: number) {
     let start = Date.now();
-    while (Date.now() - start > delay) {
-        break
+    let end = start + time;
+    while (true) {
+        start = Date.now();
+        if (start > end) {
+            break;
+        }
     }
 }
 
 export default sleep;
 
 
-export function sleepPromise (time: number) {
-    return new Promise((resolve) => {
-        setTimeout(resolve, time)
-    })
-}
+// export function sleepPromise (time: number) {
+//     return new Promise((resolve) => {
+//         setTimeout(resolve, time)
+//     })
+// }

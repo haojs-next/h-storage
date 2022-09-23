@@ -1,11 +1,13 @@
-import { terser } from 'rollup-plugin-terser'
+// import { terser } from 'rollup-plugin-terser'
 import filesize from 'rollup-plugin-filesize';
 import commonjs from 'rollup-plugin-commonjs';
 import babel from "rollup-plugin-babel";
 import ts from "rollup-plugin-typescript2";
 import livereload from 'rollup-plugin-livereload'
 import pkg from './package.json'
-import serve from 'rollup-plugin-serve'
+import serve from 'rollup-plugin-serve';
+import { resolve } from "path"
+
 
 const isPro = process.env.NODE_ENV === "production";
 
@@ -19,6 +21,7 @@ let override = { compilerOptions: { declaration: false } };
 const plugins = [
     ts({
         extensions,
+        tsconfig: "./tsconfig.json",
         tsconfigOverride: override
     }),
     commonjs(),
@@ -27,7 +30,7 @@ const plugins = [
 ]
 
 if (isPro) {
-    plugins.push(terser())
+    // plugins.push(terser())
 } else {
     plugins.push(livereload())
     plugins.push(serve({
@@ -48,18 +51,19 @@ const banner =
 const footer = `\n/** ${new Date()} **/`
 
 
-// const getEntry = (component) => {
-//     return resolve(`./packages/index.ts`)
-// }
+const getEntry = (component) => {
+    return resolve(`./packages/${component}.ts`)
+}
 
 function getPackageConfig (name) {
     return {
-        input: "./src/index.ts",//getEntry(name),
+        input: getEntry(name),
         output: [
             // "browser": "dist/hx-storage.js",
             // { file: pkg.browser, format: 'cjs', name: 'hxStorage', banner, footer },
-            { file: pkg.module, format: 'es', name: 'hxStorage', banner, footer },
+            
             { file: pkg.main, format: 'umd', name: 'hxStorage', banner, footer }
+            // { file: `dist/${name}.js`, format: 'cjs', banner, footer },
         ],
         // external: ["crypto-js"],
         plugins
@@ -67,10 +71,11 @@ function getPackageConfig (name) {
 }
 
 
-
 export default () => (
     [
-        getPackageConfig()
+        getPackageConfig("index"),
+        // getPackageConfig("utils/delay"),
+        // getPackageConfig("utils/sleep")
     ]
 )
 

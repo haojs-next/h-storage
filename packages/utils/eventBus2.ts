@@ -1,6 +1,6 @@
 
 
-export class EventBus2 {
+class EventBus2 {
     _events
     constructor () {
         this._events = Object.create(null)
@@ -59,3 +59,5 @@ export class EventBus2 {
     }
 
 }
+
+export default EventBus2;

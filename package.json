@@ -3,7 +3,7 @@
     "version": "2.0.0-beta.2",
     "description": "A JavaScript local store with type and time",
     "main": "dist/index.js",
-    "module": "dist/index.esm.js",
+    "module": "dist/es/index.js",
     "types": "dist/index.d.ts",
     "repository": "https://github.com/hvuejs/hx-storage.git",
     "author": "hao",
@@ -21,6 +21,12 @@
         "@babel/core": "^7.15.5",
         "@babel/preset-env": "^7.15.6",
         "core-js": "^3.18.0",
+        "crypto-js": "^4.1.1",
+        "gulp": "^4.0.2",
+        "gulp-babel": "^8.0.0",
+        "gulp-typescript": "^6.0.0-alpha.1",
+        "gulp-watch": "^5.0.1",
+        "path": "^0.12.7",
         "rollup": "^2.56.3",
         "rollup-plugin-babel": "^4.4.0",
         "rollup-plugin-commonjs": "^10.1.0",
@@ -29,7 +35,6 @@
         "rollup-plugin-serve": "^2.0.1",
         "rollup-plugin-terser": "^7.0.2",
         "rollup-plugin-typescript2": "^0.32.1",
-        "typescript": "^4.7.4",
-        "crypto-js": "^4.1.1"
+        "typescript": "^4.7.4"
     }
 }

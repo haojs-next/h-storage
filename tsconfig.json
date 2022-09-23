@@ -2,9 +2,9 @@
     "compilerOptions": {
       "baseUrl": ".",
       "sourceMap": false, // 是否生成sourceMap
-      "target": "es6", // 编译目标
+      "target": "es5", // 编译目标
       "module": "esnext", // 模块类型
-      "moduleResolution": "node",
+      "moduleResolution": "Node",
       "allowJs": false, // 是否编辑js文件
       "strict": false, // 严格模式
       "noUnusedLocals": true, // 未使用变量报错
@@ -16,11 +16,11 @@
       "declarationMap": false, // 生成定义sourceMap
       "declarationDir": "./dist", // 定义文件输出目录
       "suppressImplicitAnyIndexErrors": true,
-      "outDir": "./dist/es"
+    //   "outDir": "./dist/lib"
     },
     "include": [
-      "src/**/*.ts"  // 导入目录
-        // "packages/**/*.ts"  
+    //   "src/**/*.ts"  // 导入目录
+        "packages/**/*.ts"  
     ],
     "exclude": ["node_modules", "dist"]
 }  
