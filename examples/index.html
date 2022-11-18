@@ -2,7 +2,7 @@
  * @Date: 2021-09-30 19:56:52
  * @Author: 清风浩明月
  * @Version: 
- * @LastEditTime: 2022-08-19 16:58:44
+ * @LastEditTime: 2022-09-26 15:55:18
  * @Description: 
 -->
 <!DOCTYPE html>
@@ -14,13 +14,15 @@
 </head>
 <body>
     
-    <script src="../dist/hx-storage.js"></script>
+    <script src="../dist/index.js"></script>
     <script>
+        console.log(window, hxStorage());
+        
         var ls = hxStorage({ 
             namespace: '',
             storage: "session"
         })
-        console.log(ls)
+        console.log('aaaa', ls, window.localStorage)
 
         ls.set("ceshi", { name: "哈哈s" }, { expires: 1 })
         ls.set("name", "hx-storage")

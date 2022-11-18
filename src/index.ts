@@ -4,11 +4,32 @@
  **/
 import { encrypt, decrypt } from "./cryptojs2";
 
+if (typeof Object.assign != "function") {
+    Object.assign = function (target) {
+        "use strict";
+        if (target == null) {
+            throw new TypeError("Cannot convert undefined or null to object");
+        }
+
+        target = Object(target);
+        for (var index = 1; index < arguments.length; index++) {
+            var source = arguments[index];
+            if (source != null) {
+                for (var key in source) {
+                    if (Object.prototype.hasOwnProperty.call(source, key)) {
+                        target[key] = source[key];
+                    }
+                }
+            }
+        }
+        return target;
+    };
+}
 
 type METHODS<T = any, U = any> = {
     save(data: T): T;
     parse(data: U): U;
-}
+};
 
 interface DATAPROCESSMAPPING {
     number: METHODS<number>;
@@ -21,75 +42,76 @@ const SPLIT_STR = "$@";
 const DATA_PROCESS_MAPPING: DATAPROCESSMAPPING = {
     number: {
         save: (data) => data,
-        parse: (data) => Number.parseFloat(data)
+        parse: (data) => Number.parseFloat(data),
     },
     object: {
         save: (data) => JSON.stringify(data),
-        parse: (data) => JSON.parse(data)
+        parse: (data) => JSON.parse(data),
     },
     undefined: {
-        save: data => data,
-        parse: () => undefined
+        save: (data) => data,
+        parse: () => undefined,
     },
     default: {
-        save: data => data,
-        parse: data => data
-    }
+        save: (data) => data,
+        parse: (data) => data,
+    },
 };
 
 type Options = {
     expires?: number;
     encode?: boolean;
-}
+};
 
 function getProcess(type: string) {
     return DATA_PROCESS_MAPPING[type] || DATA_PROCESS_MAPPING["default"];
 }
 
+const _global: any = (typeof window !== 'undefined' ? window : global || {});
 
 const stObj = {
-    "local": localStorage,
-    "session": sessionStorage,
+    local: _global.localStorage,
+    session: _global.sessionStorage,
+};
+
+function getStorage(name: string = "local") {
+    return stObj[name] || stObj["local"];
 }
 
-function getStorage (name: string = 'local') {
-    return  stObj[name] || stObj['local']
-}
+type StorageName = "session" | "local";
 
-type StorageName = 'session' | 'local';
-
-const encryptName: string = "onEncrypt";        // 开启加密
-const notEncryptName: string = "offEncrypt";    // 取消加密
+const encryptName: string = "onEncrypt"; // 开启加密
+const notEncryptName: string = "offEncrypt"; // 取消加密
 
 interface StOptions {
     namespace?: string;
-    storage?: StorageName
+    storage?: StorageName;
 }
 
 class Storage {
-    private storage
+    private storage;
     private options: StOptions = {
-        namespace: 'HX_',      // key 键前缀
-        storage: 'local',   // 存储名称: session, local
+        namespace: "HX_", // key 键前缀
+        storage: "local", // 存储名称: session, local
     };
-    constructor (options?: StOptions) {
+    constructor(options?: StOptions) {
         Object.assign(this.options, options);
         let lsName = this.options.storage;
         this.storage = getStorage(lsName);
-        
+
         Object.defineProperty(this, "length", {
             get() {
-                return this.storage.length
+                return this.storage.length;
             },
-        })
+        });
     }
     get(key: string) {
-        let stringData = this.storage.getItem(this.options.namespace  + key);
+        let stringData = this.storage.getItem(this.options.namespace + key);
         if (stringData) {
             let dataArray: Array<any> = stringData.split(SPLIT_STR);
             let data;
             let now = Date.now();
-            if (dataArray.length > 3 && dataArray[3] < now) {                
+            if (dataArray.length > 3 && dataArray[3] < now) {
                 // 缓存过期
                 this.remove(key);
                 return null;
@@ -103,8 +125,8 @@ class Storage {
     set(key: string, value: any, options: Options = {}) {
         options = Object.assign(
             {
-                expires: 0,  // expires 设置有效时间 单位天
-                encode: true // 是否编码加密
+                expires: 0, // expires 设置有效时间 单位天
+                encode: true, // 是否编码加密
             },
             options
         );
@@ -115,18 +137,17 @@ class Storage {
         const type = typeof value;
         const process = getProcess(type);
         let NEW_VALUE = options.encode ? encrypt(process.save(value)) : process.save(value);
-        let ecrypt =  options.encode ? encryptName : notEncryptName;
+        let ecrypt = options.encode ? encryptName : notEncryptName;
         if (options.expires! <= 0) {
             // 默认不传 不过期
             value = type + SPLIT_STR + NEW_VALUE + SPLIT_STR + ecrypt;
-            
         } else {
             let time = options.expires! * 24 * 60 * 60 * 1000 + new Date().getTime();
             value = type + SPLIT_STR + NEW_VALUE + SPLIT_STR + ecrypt + SPLIT_STR + time;
         }
-        
+
         this.storage.setItem(this.options.namespace + key, value);
-        return true
+        return true;
     }
     clear() {
         return this.storage.clear();
@@ -139,8 +160,8 @@ class Storage {
     }
 }
 
-function hxStorage (options?: StOptions) {
-   return new Storage(options);
+function hxStorage(options?: StOptions) {
+    return new Storage(options);
 }
 
 export default hxStorage;

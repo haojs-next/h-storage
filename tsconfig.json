@@ -19,8 +19,8 @@
     //   "outDir": "./dist/lib"
     },
     "include": [
-    //   "src/**/*.ts"  // 导入目录
-        "packages/**/*.ts"  
+      "src/**/*.ts"  // 导入目录
+        // "packages/**/*.ts"  
     ],
     "exclude": ["node_modules", "dist"]
 }  
