@@ -2,7 +2,7 @@
  * javascript 本地存储
  * 使用 localStorage 来进行缓存数据
  **/
-import { encrypt, decrypt } from "./cryptojs2";
+import { encrypt, decrypt } from "./cryptojs";
 
 if (typeof Object.assign != "function") {
     Object.assign = function (target) {

@@ -76,12 +76,15 @@ function hxStorageConfig () {
         input: "./src/index.ts",
         output: [
             // "browser": "dist/hx-storage.js",
-            // { file: pkg.browser, format: 'cjs', name: 'hxStorage', banner, footer },
+            // { file: pkg.browser, format: 'cjs', name: 'hxStorage', banner, footer, exports: "default" },
             
             { file: pkg.main, format: 'umd', name: 'hxStorage', banner, footer },
             { file: pkg.module, format: 'esm', name: 'hxStorage', banner, footer },
         ],
-        external: ["crypto"],
+        external: ["crypto-js"],
+        // globals: {
+        //     CryptoJS: 'CryptoJS'
+        // },
         plugins
     }
 }

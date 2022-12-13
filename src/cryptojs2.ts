@@ -2,7 +2,7 @@
 
 import AES from "crypto-js/aes";
 import EncUtf8 from "crypto-js/enc-utf8";
-import PadPkcs7 from "crypto-js/pad-pkcs7"
+import PadPkcs7 from "crypto-js/pad-pkcs7";
 import EncBase64 from "crypto-js/enc-base64"
 import EncHex from "crypto-js/enc-hex"
 
