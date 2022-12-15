@@ -90,12 +90,26 @@ function hxStorageConfig () {
 }
 
 
+
+// test
+function testConfig () {
+    return {
+        input: "./min-vue/index.ts",
+        output: [
+            { file: "dist/tset.js", format: 'es' }
+        ],
+        plugins
+    }
+}
+
 export default () => (
     [
         // getPackageConfig("index"),
         // getPackageConfig("utils/delay"),
         // getPackageConfig("utils/sleep"),
         hxStorageConfig()
+
+        // testConfig()
     ]
 )
 

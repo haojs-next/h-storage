@@ -20,8 +20,9 @@
     },
     "include": [
       "env.d.ts",
-      "src/**/*.ts"  // 导入目录
-        // "packages/**/*.ts"
+      "src/**/*.ts",  // 导入目录
+        // "packages/**/*.ts",
+      "min-vue/**/*.ts"
     ],
     "exclude": ["node_modules", "dist"]
 }  

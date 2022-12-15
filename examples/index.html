@@ -2,19 +2,18 @@
  * @Date: 2021-09-30 19:56:52
  * @Author: 清风浩明月
  * @Version: 
- * @LastEditTime: 2022-09-26 15:55:18
+ * @LastEditTime: 2022-12-14 16:53:34
  * @Description: 
 -->
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-    
-    <script src="../dist/index.js"></script>
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Document</title>
+    </head>
+    <body>
+        <!-- <script src="../dist/index.js"></script>
     <script>
         console.log(window, hxStorage());
         
@@ -33,6 +32,90 @@
 
         console.log(ls.get("ceshi"))
         
-    </script>
-</body>
+    </script> -->
+
+        <!-- <marquee direction="up" behavior="scroll" loop="3" scrollamount="1" scrolldelay="10" align="top" bgcolor="#ffffff" height="300" width="30%" hspace="20" vspace="10">
+            此处输入滚动内容
+        </marquee> -->
+
+        <ul>
+            <li id="chat-content"></li>
+        </ul>
+
+        <script>
+            var data = {
+                name: "哈哈",
+            };
+            Object.defineProperty(data, "$modal", {
+                get: function () {
+                    return "yes";
+                },
+            });
+            data.$modal = "no";
+            console.log(data.$modal);
+
+            var data2 = {
+                name: "嘿嘿",
+                age: 100
+            };
+            var targetData = Object.defineProperties(data2, {
+                $modal: {
+                    value: "测试",
+                    writable: false,
+                    configurable: false,
+                },
+            });
+            var obj = new Proxy(targetData, {
+                get: function (target, key, receiver) {
+                    return Reflect.get(target, key, receiver);
+                },
+                set: function (target, key, value, receiver) {
+                    return Reflect.set(target, key, value, receiver);
+                },
+                defineProperty (target, key, receiver) {
+                    console.log(target, key, receiver)
+                    if (key === "age") {
+                        receiver = {
+                            ...receiver,
+                            writable: false,
+                            configurable: false
+                        }
+                        return
+                    }
+                    return Reflect.defineProperty(target, key, receiver)
+                }
+            });
+            obj.$modal = "哈哈哈";
+            obj.age = 20
+            console.log(data2, obj.age);
+
+            function extend(target, object) {
+                for (var k in object) {
+                    target[k] = object[k];
+                }
+                return target;
+            }
+
+            console.log(extend(data, obj));
+
+            var str = "哈&";
+            var str1 = "n";
+            var str2 = "1";
+
+            console.log(str.length, str1.length, str2.length);
+
+            var a = "";
+            var n = "对于预防新冠肺炎，建议采取以下措施： 1、多饮水，保持充足的睡眠，保持良好的饮食习惯； 2、多呼吸新鲜空气，多锻炼，保持身体活力；";
+            var c = n.split("").reverse();
+            console.log(c.pop())
+            let timer = setInterval(() => {
+                a += c.pop();
+                if (a.length >= n.length) {
+                    clearInterval(timer)
+                    return;
+                }
+                document.getElementById("chat-content").innerHTML = a
+            }, 30)
+        </script>
+    </body>
 </html>
